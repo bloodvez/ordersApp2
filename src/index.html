@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title id="prettyTitle"></title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="leaflet.css">
+  <script defer type="text/javascript" src="prettyStuff.js"></script>
+  <script defer type="text/javascript" src="prettyMap.js"></script>
+</head>
+
+<body>
+
+  <div class="buttonsDiv" id="buttonsDiv">
+    <button id="updateButton" class="prettyButton">Update</button>
+    <button id="startButton" class="prettyButton">Start</button>
+    <button id="stopButton" class="prettyButton">Stop</button>
+    <button id="fullscreenButton" class="prettyButton">Fullscreen</button>
+    <button id="quitButton" class="prettyButton">Exit</button>
+    <button id="timeButton" class="prettyButton"></button>
+  </div>
+
+  <div class="tableMain" id="issuesTable">
+    <div class="tableRow" id="tableToAssemble">
+      <h1 class="tableRowHeader" id="toAssembleHeader">Собрать: 0</h1>
+      <div id="issuesToAssemble"></div>
+    </div>
+    <div class="tableRow" id="tableAssembling">
+      <h1 class="tableRowHeader" id="assemblingHeader">Собирается: 0</h1>
+      <div id="issuesAssembling"></div>
+    </div>
+    <div class="tableRow" id="tableToDeliver">
+      <h1 class="tableRowHeader" id="toDeliverHeader">Доставить: 0</h1>
+      <div id="issuesToDeliver"></div>
+    </div>
+    <div class="tableRow" id="tableDelivering">
+      <h1 class="tableRowHeader" id="deliveringHeader">В работе: 0</h1>
+      <div id="issuesDelivering"></div>
+    </div>
+  </div>
+
+  <div id="statusDiv"></div>
+
+  <div class="telegramMain">
+    <div class="telegramHeader">Telegram
+      <div id="telegramBody" class="telegramBody"></div>
+    </div>
+  </div>
+
+  <div id="debugDiv" class="debugDiv">
+    <input type="text" id="testMsgInput">
+    <button id="sendTestMessage">send</button>
+    <button id="addFakeOrderButton">orders: 6</button>
+    <input type="range" id="fakeOrdersAmount" min="1" max="10">
+    <input type="checkbox" id="botToggleCheckbox">
+    <span>Bot running</span>
+    <input type="checkbox" id="mapToggleCheckbox" checked>
+    <span>show map</span>
+    <input type="checkbox" id="hideOrdersCheckbox" checked>
+    <span>show orders</span>
+    <button id="addMap">addMap</button>
+    <button id="addMapMarkers">addMarkers</button>
+    <button id="updateLocationsFile">updateLocationsFile</button>
+    <button id="breakpointButton">break</button>
+  </div>
+
+  <div id="prettyMap"></div>
+</body>
+
+</html>
