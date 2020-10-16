@@ -14,7 +14,6 @@ class prettyApp {
     appInit(mainWindow, callback) {
         try {
             this.APP_OPTIONS = JSON.parse(fs.readFileSync("config.json", 'utf8'))
-            this.LOCATIONS_POS = JSON.parse(fs.readFileSync("addrObj.json", 'utf8'))
 
             //closed orders file
             this.date = new Date()
@@ -117,62 +116,8 @@ class prettyApp {
         })
         this.tlgBot.launch().then(console.log("bot connected"))
         this.BOT_STARTED = true
-        //-1001355113885 - gl
-        //-1001380044997 - gl_old
-        //-448944242 - kollegi
-        //-375365134 - test
         callback("tlg started")
     };
-
-    getMarketPos = async deliveryDestination => {
-        try {
-            const params = new URLSearchParams({
-                country: 'russia',
-                street: deliveryDestination,
-                city: "Saint Petersburg",
-                format: "json"
-            });
-            const response = await fetch("https://nominatim.openstreetmap.org/search/?" + params.toString());
-            const json = await response.json();
-            return new Promise(resolve => {
-                resolve(json)
-            })
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    async addMarkerInfo(elem) {
-        var currentAddr = this.LOCATIONS_POS.filter(addrName => addrName.name == elem.deliveryDestination)
-        if (currentAddr.length == 0) {
-            //search for lat and lng
-            console.log(`no address for ${elem.deliveryDestination}`)
-            //thanks for retarded characters in your addresses
-            if (elem.deliveryDestination.includes("�") || elem.deliveryDestination == "Доставка по координатам") {
-                return console.log(`address ${elem.deliveryDestination} contains nasty shit in their name`)
-            }
-            //getting position from the first reuslt if it exists
-            await this.getMarketPos(elem.deliveryDestination).then(pos => {
-                if (pos[0] == undefined) {
-                    elem.lat = 0
-                    elem.lng = 0
-                    console.log(`something went wrong when getting info for ${elem.deliveryDestination}`)
-                } else {
-                    elem.lat = pos[0].lat
-                    elem.lng = pos[0].lon
-                    this.LOCATIONS_POS.push({
-                        name: elem.deliveryDestination,
-                        lat: elem.lat,
-                        lng: elem.lng
-                    })
-                    console.log(`added ${elem.deliveryDestination}`)
-                }
-            })
-        } else {
-            elem.lat = currentAddr[0] == undefined ? 0 : currentAddr[0].lat
-            elem.lng = currentAddr[0] == undefined ? 0 : currentAddr[0].lng
-        }
-    }
 
     async ordersHandling(inputArr) {
         //find closed orders
@@ -285,15 +230,6 @@ class prettyApp {
                 return console.log(`Couldn't update config file: ${err}`)
             }
             console.log("Updated config file")
-        })
-    }
-
-    updateLocationsFile() {
-        fs.writeFile("addrObj.json", JSON.stringify(this.LOCATIONS_POS), 'utf8', (err) => {
-            if (err) {
-                return console.log(`Couldn't update locations file: ${err}`)
-            }
-            console.log("Updated locations file")
         })
     }
 
