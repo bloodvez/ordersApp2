@@ -255,8 +255,7 @@ class prettyApp {
     dateChecker() {
         let newDate = new Date()
         if (newDate.getDate() != this.date.getDate()) {
-            this.clsdOrdersPath = `src/closedOrders/closedOrders${newDate.getDate()}_${newDate.getMonth() + 1}.json`
-            
+            this.clsdOrdersPath = `closedOrders/closedOrders${newDate.getDate()}_${newDate.getMonth() + 1}.json`     
             this.updateClosedOrdersFile()
             this.closedOrders = []
             console.log("day changed")

@@ -20,7 +20,14 @@ function createMap() {
   if (!ordersMap) {
     tiles = 'http://tile2.maps.2gis.com/tiles?x={x}&y={y}&z={z}' //2gislayer
     //tiles = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' //openstreetmap
-    ordersMap = L.map('prettyMap', { zoomControl: false, dragging: false, scrollWheelZoom: false }).setView([60.0130, 30.2889], 14);
+
+    ordersMap = L.map('prettyMap', { 
+      zoomControl: false,
+      dragging: false,
+      scrollWheelZoom: false,
+      zoomSnap: 0.25 })
+      .setView([60.01627, 30.2803], 14.5);
+
     L.tileLayer(tiles, {
       maxZoom: 18,
       tileSize: 512,
