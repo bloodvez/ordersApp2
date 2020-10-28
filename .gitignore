@@ -95,7 +95,7 @@ out/
 .vscode/*
 
 # closedOrders
-src/closedOrders/*
+closedOrders/*
 
 # config
 config.json*

@@ -48,7 +48,7 @@ const createWindow = () => {
   ipcMain.on('appMainWindowLoaded', (event, data) => {
     event.reply('applyOptions', {
       bot_enabled: prettyApp.APP_OPTIONS.BOT_ENABLED,
-      start_with_map: prettyApp.APP_OPTIONS.START_WITH_MAP
+      start_with_map: prettyApp.APP_OPTIONS.START_WITH_MAP,
     })
   })
   ipcMain.on('updateLocationsFile', (event, data) => {

@@ -17,7 +17,7 @@ class prettyApp {
 
             //closed orders file
             this.date = new Date()
-            this.clsdOrdersPath = `src/closedOrders/closedOrders${this.date.getDate()}_${this.date.getMonth() + 1}.json`
+            this.clsdOrdersPath = `closedOrders/closedOrders${this.date.getDate()}_${this.date.getMonth() + 1}.json`
             //check if file with current date exist
             //if it doesn't - create one
             if (!fs.existsSync(this.clsdOrdersPath)) {
@@ -145,7 +145,7 @@ class prettyApp {
         this.ordersArr.map(async elem => {
             //time left calc
             var timeNow = new Date().getTime()
-            var timeFinished = (new Date(elem.dueDate).getTime())
+            var timeFinished = (new Date(elem.orders[0].dueDate).getTime())
             var timeLeft = Math.round(((timeFinished - timeNow) / 1000 / 60))
             elem.timeLeft = timeLeft
             //Setting task types
@@ -168,26 +168,22 @@ class prettyApp {
         await Promise.all(newInArray.map(async elem => {
             //time left calc
             var timeNow = new Date().getTime()
-            var timeFinished = (new Date(elem.dueDate).getTime())
+            var timeFinished = (new Date(elem.orders[0].dueDate).getTime())
             var timeLeft = Math.round(((timeFinished - timeNow) / 1000 / 60))
             elem.timeLeft = timeLeft
+            
 
             //get amount of items
-            if (elem.itemsAmount == undefined) {
                 try {
                     //get order detailed info
-                    const response = await fetch(`https://api.samokat.ru/darkstore/admin/tasks/${elem.taskType}/${elem.taskId}`, this.requestHeader);
+                    const response = await fetch(`https://api.samokat.ru/darkstore/tasks/${elem.type}/${elem.taskId}`, this.requestHeader);
                     const res = await response.json()
                     //append required elements
-                    elem.apartment = res.customerOrderDetails.deliveryDestination.apartment
-                    elem.entrance = res.customerOrderDetails.deliveryDestination.entrance
-                    elem.floor = res.customerOrderDetails.deliveryDestination.floor
-                    elem.itemsAmount = 0
-                    elem.lat = res.customerOrderDetails.deliveryDestination.coordinates.latitude
-                    elem.lng = res.customerOrderDetails.deliveryDestination.coordinates.longitude
-                    res.items.forEach(item => {
-                        elem.itemsAmount += item.quantity
-                    })
+                    elem.apartment = res.value.orders[0].deliveryDestination.flat
+                    elem.entrance = res.value.orders[0].deliveryDestination.entrance
+                    elem.floor = res.value.orders[0].deliveryDestination.floor
+                    elem.lat = res.value.orders[0].deliveryDestination.coordinates.latitude
+                    elem.lng = res.value.orders[0].deliveryDestination.coordinates.longitude
                     //Setting task types
                     if (elem.taskType == "PICKING" && elem.responsible) {
                         elem.taskType = "PickingInProgress"
@@ -201,19 +197,24 @@ class prettyApp {
                 } catch (error) {
                     console.log(error)
                 }
-            } else this.ordersArr.push(elem)
         }))
     };
 
     async getOrders(app) {
         try {
-            const resp = await fetch('https://api.samokat.ru/darkstore/admin/tasks', this.requestHeader);
+            const resp = await fetch('https://api.samokat.ru/darkstore/tasks/admin/active', this.requestHeader);
             var result = await resp.json();
             if (result.code == "active_shift_not_found") {
                 console.log("No actve shifts")
             } else {
                 //Adding all required info
-                result = result.otherWarehouseTasks
+                result = result.value.otherTasks
+                result.forEach(elem =>{
+                    elem.itemsAmount = elem.orders[0].productsQuantity
+                    elem.responsible = elem.responsible == undefined ? "" : elem.responsible.fullName
+                    elem.taskType = elem.type
+                    elem.deliveryDestination = elem.orders[0].deliveryDestination
+                })
                 await app.ordersHandling(result).then(res => {
                     app.ordersArr.sort((a, b) => { return b.timeLeft - a.timeLeft })
                 })
