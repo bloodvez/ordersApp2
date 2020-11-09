@@ -1,100 +1,182 @@
 body {
-  margin: 5px;
-  font-family: SF UI Display,-apple-system,BlinkMacSystemFont,Apple Color Emoji,Arial,sans-serif;
-  background-color: #272727;
-  }
-  .tableMain {
-  width: 100%;
-  padding: 0px;
-  margin: 10px 0px 0px 0px;
-  }
-  .tableMain.hidden {
-    display: none;
-  }
-  .tableRow {
-  padding: 0px;
-  margin: 0px;
-  background-color: #888888;
-  }
-  .card {
-  background-color: #DCDCDC;
-  margin: 0px 0px 2px 0px;
-  padding: 0px 0px 0px 5px;
-  font-size: 1.5vh;
-  font-weight: bold;
-  }
-  .card span{
-  padding-right: 5px;
-  float:right;
-  }
-  .overdue {
-  color: red;
-  }
-  .onTime{
-  color: darkgreen;
-  }
-  .superOverdue{
-  background-color: #ff9e9e;
-  }
-  .buttonsDiv{
+    margin: 5px;
+    font-family: SF UI Display, -apple-system, BlinkMacSystemFont, Apple Color Emoji, Arial, sans-serif;
+    background-color: #272727;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.tableMain {
+    width: 100%;
+    padding: 0px;
+    margin: 10px 0px 0px 0px;
+}
+
+.tableRow {
+    padding: 0px;
+    margin: 0px;
+    background-color: #888888;
+}
+
+.card {
+    background-color: #DCDCDC;
+    margin: 0px 0px 2px 0px;
+    padding: 0px 0px 0px 5px;
+    font-size: 1.5vh;
+    font-weight: bold;
+}
+
+.card span {
+    padding-right: 5px;
+    float: right;
+}
+
+.overdue {
+    color: red;
+}
+
+.onTime {
+    color: darkgreen;
+}
+
+.superOverdue {
+    background-color: #ff9e9e;
+}
+
+.buttonsDiv {
     display: flex;
     flex-wrap: nowrap;
-  }
-  .prettyButton {
-      background-color: limegreen;
-      border: none;
-      margin: 0px 2px 0px 2px;
-      font-size: 2vh;
-      font-weight: bold;
-      flex-grow: 1;
-  }
-  .prettyButton:hover {
-  transition: 0.2s;
-  background-color: darkgreen;
-  cursor: pointer;
-  }
-  #statusDiv {
-  color: white;
-  }
-  .tableRowHeader{
-  font-size: 2vh;
-  color: white;
-  background-color: #4e4e4e;
-  margin: 0px 0px 2px 0px;
-  border-left: 5px solid;
-  border-color: limegreen;
-  padding: 0px 0px 0px 5px;
 }
-.telegramMain{
-  font-size: 2vh;
-  color: white;
-  font-weight: bold;
-  background-color: #4e4e4e;
-  margin: 0px 0px 2px 0px;
-  border-left: 5px solid;
-  border-color: #2da5e1;
-  padding: 0px 0px 0px 5px;
+
+.buttonsDiv.hidden{
+    display: none;
+    visibility: hidden;
 }
-.telegramCard{
-  background-color: #DCDCDC;
-  color: black;
-  margin: 0px 0px 2px 0px;
-  padding: 0px 0px 0px 5px;
-  font-size: 1.5vh;
-  font-weight: bold;
-  cursor: pointer;
+
+.prettyButton {
+    background-color: limegreen;
+    border: none;
+    margin: 0px 2px 0px 2px;
+    font-size: 2vh;
+    font-weight: bold;
+    flex-grow: 1;
 }
-.debugDiv{
-  display: block;
-  background-color: aliceblue;
+
+.prettyButton:hover {
+    transition: 0.2s;
+    background-color: darkgreen;
+    cursor: pointer;
 }
-.debugDiv.hidden{
-  display: none;
+
+#statusDiv {
+    color: white;
 }
-#prettyMap{
-  height: 450px;
+
+.tableRowHeader {
+    font-size: 2vh;
+    color: white;
+    background-color: #4e4e4e;
+    margin: 0px 0px 2px 0px;
+    border-left: 5px solid;
+    border-color: limegreen;
+    padding: 0px 0px 0px 5px;
 }
-#prettyMap.hidden{
-  display: none;
-  height: 450px;
+
+.telegramMain {
+    font-size: 2vh;
+    color: white;
+    font-weight: bold;
+    background-color: #4e4e4e;
+    margin: 0px 0px 2px 0px;
+    border-left: 5px solid;
+    border-color: #2da5e1;
+    padding: 0px 0px 0px 5px;
+}
+
+.telegramCard {
+    background-color: #DCDCDC;
+    color: black;
+    margin: 0px 0px 2px 0px;
+    padding: 0px 0px 0px 5px;
+    font-size: 1.5vh;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.debugDiv {
+    display: block;
+    background-color: aliceblue;
+}
+
+.debugDiv.hidden {
+    display: none;
+}
+
+#prettyMap {
+    z-index: 3;
+    height: 450px;
+}
+
+#prettyMap.hidden {
+    display: none;
+    height: 450px;
+}
+
+#overlayBody {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    z-index: 4;
+}
+
+#overlayBody.hidden {
+    visibility: hidden;
+}
+
+.ordersOverlay {
+    display: block;
+    width: 90%;
+    margin: 10% 5%;
+    position: absolute;
+    background-color: white;
+    z-index: 5;
+}
+
+.overlayOptionsBody.hidden{
+    visibility: hidden;
+    display: none;
+}
+
+.overlayHeader {
+    padding: 2px 0px 2px 0px;
+    background-color: grey;
+    text-align: center;
+    font-size: 2vh;
+    font-weight: bold;
+}
+
+.overlayClosedOrderCard {
+    display: block;
+    background-color: slategrey;
+}
+
+#overlayClosedOrders {
+    background-color: whitesmoke;
+}
+
+#overlayClosedOrders table th,
+#overlayClosedOrders table td {
+    border: 1px solid black;
+    width: calc(100% / 3);
+}
+
+#overlayClosedOrders table {
+    border-spacing: 0px;
+    width: 100%;
+}
+
+#overlayLogin.hidden{
+    display: none;
+    visibility: hidden;
 }

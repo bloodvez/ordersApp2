@@ -1,15 +1,15 @@
 const L = require('leaflet')
 
-var markersArr = L.layerGroup();
-var ordersMap = undefined
+let markersArr = L.layerGroup();
+let ordersMap = undefined
 
-var mapRedIcon = L.icon({
+let mapRedIcon = L.icon({
   iconUrl: `${__dirname}/images/marker_red.png`,
   iconSize: [25, 41], // size of the icon
   iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
 });
 
-var mapGreenIcon = L.icon({
+let mapGreenIcon = L.icon({
   iconUrl: `${__dirname}/images/marker_green.png`,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
@@ -26,7 +26,7 @@ function createMap() {
       dragging: false,
       scrollWheelZoom: false,
       zoomSnap: 0.25 })
-      .setView([60.01627, 30.2803], 14.5);
+      .setView([mapSettings.lat, mapSettings.lng], mapSettings.zoom);
 
     L.tileLayer(tiles, {
       maxZoom: 18,
