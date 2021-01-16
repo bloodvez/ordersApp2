@@ -12,6 +12,7 @@ class prettyApp {
                 let toWrite = {
                     BOT_TOKEN: "", //telegram bot token
                     ORDERS_TOKEN: "", //samokat dashboard token
+                    refreshToken: "", //samokat refresh token
                     BOT_ENABLED: false,
                     START_WITH_MAP: false,
                     CHATS_LIST: [{ //chats that telegram bot listens to
@@ -19,26 +20,25 @@ class prettyApp {
                         comment: ''
                     }],
                     CHATS: [],
+                    MAP_SETTINGS: { "lat": 59.941, "lng": 30.322, "zoom": 14.5 },
                 }
+                this.APP_OPTIONS = toWrite
                 fs.writeFileSync('config.json', JSON.stringify(toWrite), 'utf8')
             } else {
+                this.BOT_ENABLED = false
+                this.START_WITH_MAP = true
                 this.APP_OPTIONS = JSON.parse(fs.readFileSync("config.json", 'utf8'))
             }
 
             //closed orders file
             this.date = new Date()
-            this.clsdOrdersPath = `closedOrders/closedOrders${this.date.getDate()}_${this.date.getMonth() + 1}.json`
-            //check if file with current date exist
-            //if it doesn't - create one
-            if (!fs.existsSync('closedOrders')) {
-                fs.mkdirSync('closedOrders')
-            }
-
-            if (!fs.existsSync(this.clsdOrdersPath)) {
-                fs.writeFileSync(this.clsdOrdersPath, "[]", 'utf8')
-                this.closedOrders = []
+            //check if file with closed orders exist
+            if (!fs.existsSync('closedOrders.json')) {
+                fs.writeFileSync('closedOrders.json', `{"amount":0},{"time":${this.date.getTime()}}`, 'utf8')
+                this.closedOrders = 0
             } else { // and if it does exist - read it
-                this.closedOrders = JSON.parse(fs.readFileSync(this.clsdOrdersPath, 'utf8'))
+                this.closedOrders = JSON.parse(fs.readFileSync('closedOrders.json', 'utf8'))
+                this.closedOrders = this.closedOrders.amount
                 //send to browser
             }
             this.ordersArr = []
@@ -65,13 +65,9 @@ class prettyApp {
         if (text.includes("@sizova25")) {
             this.mainWindow.webContents.send('telegramMessage', { date: ctx.message.date, text: text })
             ctx.forwardMessage(-448944242, ctx.chat.id, ctx.message.message_id)
-        } else if (text == "/ungabunga")
-            if (ctx.from.id == 266536855) {
-                ctx.reply(`Нахуй пошел`)
-                this.mainWindow.webContents.send('telegramMessage', { date: ctx.message.date, text: text })
-            } else {
-                ctx.reply(`Целовал тебя ${~~(Math.random() * 100)} раз`)
-            }
+        } else if (text == "/ungabunga") {
+            ctx.reply(`Целовал тебя ${~~(Math.random() * 100)} раз`)
+        }
     }
 
     async tlgInit(callback) {
@@ -117,9 +113,8 @@ class prettyApp {
             leftArray.forEach((elem) => {
                 if (elem.taskType == "DeliveryInProgress") {
                     elem.closedTime = closedTime
-                    this.closedOrders.push(elem)
+                    this.closedOrders += 1
                     this.ordersArr.splice(this.ordersArr.indexOf(elem), 1)
-                    //console.log(`${elem.deliveryDestination} is no more`)
                 } else {
                     this.ordersArr.splice(this.ordersArr.indexOf(elem), 1)
                 }
@@ -201,15 +196,21 @@ class prettyApp {
                 body: JSON.stringify(loginInfo)
             });
             let result = await resp.json()
-            if (result.status == undefined) {
-                this.APP_OPTIONS.ORDERS_TOKEN = result.accessToken
-                this.APP_OPTIONS.refreshToken = result.refreshToken
-                this.requestHeader = { headers: { authorization: `Bearer ${this.APP_OPTIONS.ORDERS_TOKEN}` } }
-                //send thing to UI to clear login form
-                //and notify user that we are logged in
-                console.log('logged in')
-                this.mainWindow.webContents.send('clearLogin')
-                this.updateConfigFile()
+            switch (result.status) {
+                case undefined: //no error, credentials are correct
+                    this.APP_OPTIONS.ORDERS_TOKEN = result.accessToken
+                    this.APP_OPTIONS.refreshToken = result.refreshToken
+                    this.requestHeader = { headers: { authorization: `Bearer ${this.APP_OPTIONS.ORDERS_TOKEN}` } }
+                    //send thing to UI to clear login form
+                    //and notify user that we are logged in
+                    console.log('logged in')
+                    this.mainWindow.webContents.send('loginClear')
+                    this.updateConfigFile()
+                    break;
+
+                case 500: // invalid credentials most likely
+                    this.mainWindow.webContents.send('loginWrong')
+                    break;
             }
         } catch (error) {
             this.mainWindow.webContents.send('appError', { error: "Couldn't login" })
@@ -253,6 +254,9 @@ class prettyApp {
                 return { isAuthorised: false }
             }
         } catch (error) {
+            if (error.code == "ETIMEDOUT") {
+                return this.mainWindow.webContents.send('appError', { error: "No internet connection" })
+            }
             console.log(error)
         }
     }
@@ -280,7 +284,8 @@ class prettyApp {
                 console.log("No actve shifts")
             } else {
                 //Adding all required info
-                await app.ordersHandling(resp.data.value.otherTasks).then(res => {
+                let parseArr = [...resp.data.value.otherTasks, ...resp.data.value.adminTasks]
+                await app.ordersHandling(parseArr).then(res => {
                     app.ordersArr.sort((a, b) => { return b.timeLeft - a.timeLeft })
                 })
             }
@@ -301,26 +306,20 @@ class prettyApp {
     }
 
     updateClosedOrdersFile() {
-        let jsonToWrite = []
-        this.closedOrders.forEach(elem => {
-            jsonToWrite.push({
-                taskId: elem.taskId,
-                deliveryDestination: elem.deliveryDestination,
-                responsible: elem.responsible,
-                timeLeft: elem.timeLeft,
-                apartment: elem.apartment,
-                phone: elem.phone,
-                closedTime: elem.closedTime
-            })
-        })
-        fs.writeFile(this.clsdOrdersPath, JSON.stringify(jsonToWrite), 'utf8', (err) => {
+
+        let jsonToWrite = {
+            amount: this.closedOrders,
+            time: this.date.getTime()
+        }
+
+        fs.writeFile('closedOrders.json', JSON.stringify(jsonToWrite), 'utf8', (err) => {
             if (err) {
                 return console.log(`Couldn't update closed orders file: ${err}`)
             }
         })
     }
 
-    updateMapSettings(data){
+    updateMapSettings(data) {
         this.APP_OPTIONS.MAP_SETTINGS = data
         this.updateConfigFile()
     }
@@ -328,9 +327,8 @@ class prettyApp {
     dateChecker() {
         let newDate = new Date()
         if (newDate.getDate() != this.date.getDate()) {
-            this.clsdOrdersPath = `closedOrders/closedOrders${newDate.getDate()}_${newDate.getMonth() + 1}.json`
+            this.closedOrders = 0
             this.updateClosedOrdersFile()
-            this.closedOrders = []
             console.log("day changed")
         }
         this.date = newDate

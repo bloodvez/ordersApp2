@@ -85,8 +85,8 @@ typings/
 # Webpack
 .webpack/
 
-# Electron-Forge
-out/
+# Electron-Builder
+dist/*
 
 # workspace
 *.code-workspace
@@ -99,3 +99,7 @@ closedOrders/*
 
 # config
 config.json*
+
+# tests
+src/tests/*
+

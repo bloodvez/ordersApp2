@@ -25,7 +25,9 @@ function createMap() {
       zoomControl: false,
       dragging: false,
       scrollWheelZoom: false,
-      zoomSnap: 0.25 })
+      doubleClickZoom: false,
+      zoomDelta: 0.1,
+      zoomSnap: 0.1 })
       .setView([mapSettings.lat, mapSettings.lng], mapSettings.zoom);
 
     L.tileLayer(tiles, {

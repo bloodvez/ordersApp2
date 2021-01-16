@@ -19,7 +19,7 @@
             <div id="overlayLogin" class="">
                 <div class="overlayHeader">Login</div>
                 <div>Телефон</div>
-                <input id="loginPhone" type="tel" name="mobile" value placeholder="+7 123 123-45-67">
+                <input id="loginPhone" type="tel" name="mobile" value="+7">
                 <div>Пароль</div>
                 <input id="loginPassword" type="password" name="password" value>
                 <button id="loginButton" type="submit">Войти</button>
@@ -44,6 +44,11 @@
                         </div>
 
                         <div>
+                            <input type="checkbox" id="telegramToggleCheckbox" checked>
+                            <span>telegram visible</span>
+                        </div>
+
+                        <div>
                             <input type="checkbox" id="mapToggleCheckbox" checked>
                             <span>show map</span>
                         </div>
@@ -61,24 +66,6 @@
                         <button id="breakpointButton">break</button>
                     </div>
 
-                </div>
-
-                <div class="overlayHeader">Closed orders</div>
-
-                <div id="overlayClosedOrders">
-                    <button onclick="addClosedOrders()">update</button>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Adr</th>
-                                <th>Empl</th>
-                                <th>Apt</th>
-                                <th>Time</th>
-                            </tr>
-                        </thead>
-                        <tbody id="closedOrdersTable">
-                        </tbody>
-                    </table>
                 </div>
 
                 <div></div>
@@ -121,7 +108,7 @@
 
     <div id="statusDiv"></div>
 
-    <div class="telegramMain">
+    <div id="telegramMain">
         <div class="telegramHeader">Telegram
             <div id="telegramBody" class="telegramBody"></div>
         </div>

@@ -82,7 +82,7 @@ body {
     padding: 0px 0px 0px 5px;
 }
 
-.telegramMain {
+#telegramMain {
     font-size: 2vh;
     color: white;
     font-weight: bold;
@@ -91,6 +91,11 @@ body {
     border-left: 5px solid;
     border-color: #2da5e1;
     padding: 0px 0px 0px 5px;
+}
+
+#telegramMain.hidden{
+    display: none;
+    visibility: hidden;
 }
 
 .telegramCard {

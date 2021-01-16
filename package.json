@@ -1,0 +1,36 @@
+{
+  "name": "ordersapp",
+  "productName": "ordersApp",
+  "version": "0.8.0",
+  "description": "Orders dashboard",
+  "main": "src/index.js",
+  "author": {
+    "name": "bldz r4ul",
+    "email": "mrzooly@gmail.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/bloodvez/ordersApp",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "com.electron.ordersapp",
+    "linux": {
+      "target": {
+        "target": "deb",
+        "arch": "armv7l"
+      },
+      "category": "Utility"
+    }
+  },
+  "devDependencies": {
+    "electron": "^11.2.0",
+    "electron-builder": "^22.9.1"
+  },
+  "dependencies": {
+    "leaflet": "^1.7.1",
+    "node-fetch": "^2.6.1",
+    "telegraf": "^4.0.1"
+  }
+}

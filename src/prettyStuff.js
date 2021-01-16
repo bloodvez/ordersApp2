@@ -3,14 +3,14 @@ const ipcRenderer = electron.ipcRenderer;
 const prettyUtils = require('./prettyUtils')
 
 let ordersArr = [];
-let closedOrders = []
+let closedOrders = 0;
 let telegramMessages = [];
 let prettyStatus = "ready";
 let intervalID = "";
 let intervalRunning = false;
 let nowToAssemble, nowAssembling, nowToDeliver, nowDelivering
 let tlgAudio = new Audio('sound/tlgMsg.ogg')
-let mapSettings = {"lat":0,"lng":0,"zoom":0}
+let mapSettings = { "lat": 59.941, "lng": 30.322, "zoom": 14.5 }
 
 ipcRenderer.on('applyOptions', (event, data) => {
     botToggleCheckbox.checked = data.bot_enabled
@@ -35,16 +35,16 @@ ipcRenderer.on('telegramMessage', (event, data) => {
     addTelegramMessage(data)
 })
 
-ipcRenderer.on('closedOrder', (event, data) => {
-    closedOrders = [...data]
-})
-
-ipcRenderer.on('clearLogin', (event, data) => {
+ipcRenderer.on('loginClear', (event, data) => {
     loginPhone.value = ""
     loginPassword.value = ""
     overlayLogin.classList.add("hidden")
+    alert("Вход выполнен")
 })
 
+ipcRenderer.on('loginWrong', (event, data) => {
+    alert("Неверный логин или пароль")
+})
 
 //top buttons
 updateButton.onclick = getData
@@ -53,26 +53,31 @@ stopButton.onclick = prettyStop
 fullscreenButton.onclick = () => { document.documentElement.requestFullscreen() }
 quitButton.onclick = () => { ipcRenderer.send('quitApp') }
 timeButton.onclick = () => { overlayBody.classList.toggle("hidden") }
+
 //overlay
 overlayBody.onclick = () => {
     if (!overlayBody.classList.contains("bgNonClickable")) {
         overlayBody.classList.toggle("hidden")
     }
 }
-loginButton.onclick = () => { ipcRenderer.send('login', {login: loginPhone.value, password: loginPassword.value}) }
+loginButton.onclick = () => { ipcRenderer.send('login', { login: loginPhone.value, password: loginPassword.value }) }
+
 //debug
 addFakeOrderButton.onclick = () => addFakeOrder(fakeOrdersAmount.value)
 sendTestMessage.onclick = sendTestTlg
 fakeOrdersAmount.onchange = () => { addFakeOrderButton.innerHTML = `orders: ${fakeOrdersAmount.value}` }
 breakpointButton.onclick = () => { ipcRenderer.send('debugButton') }
+
 //options
 botToggleCheckbox.onclick = () => { ipcRenderer.send('toggleTlgBot', { 'enabled': botToggleCheckbox.checked }) }
+telegramToggleCheckbox.onclick = () => { telegramMain.classList.toggle("hidden") }
+
 //map
 addMap.onclick = () => { createMap() }
 mapToggleCheckbox.onclick = () => { prettyMap.classList.toggle("hidden") }
-mapMovableCheckbox.onclick = () => { 
-    if(ordersMap != undefined){
-        if (mapMovableCheckbox.checked == true){
+mapMovableCheckbox.onclick = () => {
+    if (ordersMap != undefined) {
+        if (mapMovableCheckbox.checked == true) {
             ordersMap.dragging.enable()
             ordersMap.scrollWheelZoom.enable()
         } else {
@@ -81,11 +86,11 @@ mapMovableCheckbox.onclick = () => {
         }
 
     }
- }
+}
 updateMapSettings.onclick = () => {
-    if (ordersMap != undefined){
-        let toSend = {lat:ordersMap.getCenter().lat, lng:ordersMap.getCenter().lng, zoom:ordersMap.getZoom()}
-        ipcRenderer.send('updateMapSettings', toSend) 
+    if (ordersMap != undefined) {
+        let toSend = { lat: ordersMap.getCenter().lat, lng: ordersMap.getCenter().lng, zoom: ordersMap.getZoom() }
+        ipcRenderer.send('updateMapSettings', toSend)
     }
 }
 addMapMarkers.onclick = () => { addMarkers() }
@@ -219,7 +224,7 @@ function prettyStatusUpdate(status) {
                 break
         }
     }
-    statusDiv.innerText = `${statusDiv.innerText}, Заказов: ${ordersArr.length}, Закрытых заказов:${closedOrders.length}`
+    statusDiv.innerText = `${statusDiv.innerText}, Заказов: ${ordersArr.length}, Закрытых заказов:${closedOrders}`
     prettyTitle.innerText = `${statusDiv.innerText}`
     toAssembleHeader.textContent = `Собрать: ${nowToAssemble}`
     assemblingHeader.textContent = `Собирается: ${nowAssembling}`
@@ -279,31 +284,6 @@ function addFakeOrder(amount) {
         ordersArr.push(foo)
     }
     prettyUpdate()
-}
-
-function addClosedOrders() {
-    ipcRenderer.send('getClosedOrders')
-    //clear the div
-    closedOrdersTable.innerHTML = ''
-    let html = ''
-
-    if (closedOrders.length >= 20) {
-        for (let i = closedOrders.length - 1; i > closedOrders.length - 20; i--) {
-            html += `<tr> <td> ${closedOrders[i].deliveryDestination} </td>
-        <td> ${closedOrders[i].responsible} </td>
-        <td> ${closedOrders[i].apartment} </td>
-        <td> ${closedOrders[i].closedTime} </td></tr>`
-        }
-    } else {
-        closedOrders.forEach(elem => {
-            html += `<tr> <td> ${elem.deliveryDestination} </td>
-        <td> ${elem.responsible} </td>
-        <td> ${elem.apartment} </td>
-        <td> ${elem.closedTime} </td></tr>`
-        })
-    }
-
-    closedOrdersTable.innerHTML = html
 }
 
 setInterval((() => { //time
