@@ -1,79 +1,72 @@
+:root {
+  --font-size: 2vh;
+}
 body{
-    background-color: #41464b;
-  }
-  
-  h1{
-    background-color: lightgrey;
-    margin: 0px;
-    padding: 0px;
-    text-align: center;
-    font-size: 1.5em;
-  }
-  
-  h2{
-    background-color: lightgrey;
-    margin: 0px;
-    padding: 0px;
-    text-align: center;
-    font-size: 1em;
-  }
-  
-  .navbar-nav{
-    flex-direction: row;
-  }
-  
-  .nav-item{
-    flex: 1;
-    text-align: center;
-    color: black;
-  }
-  
-  .loginForm{
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .pendingDiv{
-    display: flex;
-    flex-flow: row;
-    flex-wrap: wrap;
-  }
-  
-  .card{
-    flex:auto;
-    font-weight: bold;
-    margin: 3px 0px;
-  }
-  .cardContents{
-    display: flex;
-    flex-flow: row wrap;
-  }
-  .cardTimeLeft{
-    flex: auto;
-    text-align: end;
-  }
-  
-  .late{
-    color: red;
-  }
-  
-  .list-group-item{
-    flex: auto;
-    padding: .3rem 1rem 0px;
-    background-color: white;
-  }
-  .list-group{
-    display: flex;
-    flex-flow: row wrap;
-  }
-  
-  .card-header{
-    padding: 0rem 1rem;
-    font-weight: bold;
-    background-color: lightgray;
-    text-align: center;
-  }
-  
-  .progress {
-    height: 0.25rem;
-  }
+  background-color: #41464b;
+}
+h1{
+  background-color: lightgrey;
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  font-size: 1.5em;
+}
+h2{
+  background-color: lightgrey;
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  font-size: 1em;
+}
+.navbar-nav{
+  flex-direction: row;
+}
+.nav-item{
+  flex: 1;
+  text-align: center;
+  color: black;
+}
+.loginForm{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.pendingDiv{
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+}
+.card{
+  flex:auto;
+  font-size: var(--font-size);
+  font-weight: bold;
+  margin: 3px 0px;
+}
+.cardContents{
+  display: flex;
+  flex-flow: row wrap;
+}
+.cardTimeLeft{
+  flex: auto;
+  text-align: end;
+}
+.late{
+  color: red;
+}
+.list-group-item{
+  flex: auto;
+  padding: .3rem 1rem 0px;
+  background-color: white;
+}
+.list-group{
+  display: flex;
+  flex-flow: row wrap;
+}
+.card-header{
+  padding: 0rem 1rem;
+  font-weight: bold;
+  background-color: lightgray;
+  text-align: center;
+}
+.progress {
+  height: 0.25rem;
+}
