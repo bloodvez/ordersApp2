@@ -21,7 +21,7 @@ const ToastsList = observer(() => {
   
 
   return (
-    <div>
+    <div className="pendingDiv toastsDiv">
         {prettyApp.toasts.map(toast => (
             <Toast key={toast.messageId} onContextMenu={() => {
               prettyApp.setToasts(prettyApp.toasts.filter(compToast => compToast.messageId !== toast.messageId))

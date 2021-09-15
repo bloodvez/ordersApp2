@@ -3,7 +3,7 @@ import { useContext, useState } from 'react'
 import { Form, Button, Row, Col,InputGroup } from 'react-bootstrap'
 import { Context } from '../index'
 
-function Login() {
+const Login = () => {
   const { prettyApp } = useContext(Context)
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')

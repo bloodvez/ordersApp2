@@ -8,10 +8,10 @@ const CouriersList = observer(() => {
   const { prettyApp } = useContext(Context)
 
   return (
-    <div>
+    <div className="stuffLists">
         <h1>Курьеры</h1>
         <h2>Свободные</h2>
-        <div className="pendingDiv">
+        <div>
           {prettyApp.ordersArray.couriers.free.map(courier => (
             <CourierCard courier={courier} />
           ))}

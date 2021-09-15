@@ -3,13 +3,13 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
 require('@electron/remote/main').initialize()
-const {refreshToken, login, getOrders} = require('./samokatAPI')
+const { refreshToken, login, getOrders } = require('./samokatAPI')
 
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width:1080,
-    height:1280,
+    width: 1080,
+    height: 1280,
     webPreferences: {
       autoHideMenuBar: true,
       nodeIntegration: true,
@@ -24,6 +24,14 @@ function createWindow() {
       : `file://${path.join(__dirname, '../build/index.html')}`
   )
 
+  win.on('enter-full-screen', _ => {
+    win.webContents.send('enteredFullscreen')
+  })
+
+  win.on('leave-full-screen', _ => {
+    win.webContents.send('leftFullscreen')
+  })
+
   ipcMain.handle('refreshToken', (event, token) => {
     return refreshToken(token)
   })
@@ -32,6 +40,13 @@ function createWindow() {
   })
   ipcMain.handle('getOrders', (event, orders_token) => {
     return getOrders(orders_token)
+  })
+  ipcMain.handle('toggleFullscreen', (event, value) => {
+    if (value === true) {
+      win.setFullScreen(false)
+    } else {
+      win.setFullScreen(true)
+    }
   })
 }
 

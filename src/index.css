@@ -1,5 +1,7 @@
 :root {
-  --font-size: 2vh;
+  --card-font-size: 1.3vh;
+  --h1-font-size: 2vh;
+  --h2-font-size: 1.5vh;
 }
 body{
   background-color: #41464b;
@@ -9,14 +11,24 @@ h1{
   margin: 0px;
   padding: 0px;
   text-align: center;
-  font-size: 1.5em;
+  font-size: var(--h1-font-size);
+  font-weight: bold;
 }
 h2{
   background-color: lightgrey;
   margin: 0px;
   padding: 0px;
   text-align: center;
-  font-size: 1em;
+  font-size: var(--h2-font-size);
+  font-weight: bold;
+}
+.btn{
+  font-size: 1.3vh;
+  font-weight: bold;
+  margin: 0 5px;
+}
+.dropdown-item{
+  font-size: 2vh;
 }
 .navbar-nav{
   flex-direction: row;
@@ -25,6 +37,7 @@ h2{
   flex: 1;
   text-align: center;
   color: black;
+  font-size: 1.5vh;
 }
 .loginForm{
   margin-top: 10px;
@@ -35,11 +48,17 @@ h2{
   flex-flow: row;
   flex-wrap: wrap;
 }
+.stuffLists{
+  margin: 5px 0px;
+}
+.toastsDiv{
+  margin: 10px 0px;
+}
 .card{
   flex:auto;
-  font-size: var(--font-size);
+  font-size: var(--card-font-size);
   font-weight: bold;
-  margin: 3px 0px;
+  margin: 3px 5px;
 }
 .cardContents{
   display: flex;
@@ -69,4 +88,10 @@ h2{
 }
 .progress {
   height: 0.25rem;
+}
+.toast{
+  width: 100%;
+  margin: 3px 5px;
+  font-size: 1.5vh;
+  flex: 1 0 43%;
 }

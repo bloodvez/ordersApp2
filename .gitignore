@@ -43,6 +43,7 @@ typings/
 *.tsbuildinfo
 
 # Optional npm cache directory
+package-lock.json*
 .npm
 
 # Optional eslint cache
@@ -72,4 +73,6 @@ dist/*
 
 # config
 config.json*
+package-lock.json*
+yarn.lock*
 

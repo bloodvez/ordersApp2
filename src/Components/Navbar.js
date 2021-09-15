@@ -21,14 +21,6 @@ const NavBar = observer(() => {
     })
   }
 
-  const start = () => {
-    prettyApp.start()
-  }
-
-  const stop = () => {
-    prettyApp.stop()
-  }
-
   return (
     <Navbar bg="dark" variant="dark">
       <DropdownButton
@@ -37,23 +29,30 @@ const NavBar = observer(() => {
         variant="success"
       >
         <Dropdown.Item onClick={getOrders} as="button">
-          fetch online
+          Обновить
         </Dropdown.Item>
+        {(prettyApp.intervalRunning === true) ?
+          <Dropdown.Item onClick={_ => prettyApp.stop()} as="button">
+            Стоп
+          </Dropdown.Item> :
+          <Dropdown.Item onClick={_ => prettyApp.start()} as="button">
+            Старт
+          </Dropdown.Item>
+        }
         <Dropdown.Item onClick={refreshToken} as="button">
           refresh token
         </Dropdown.Item>
-        {(prettyApp.intervalRunning === true) ?
-        <Dropdown.Item onClick={stop} as="button">
-          stop
-        </Dropdown.Item>:
-        <Dropdown.Item onClick={start} as="button">
-          start
-        </Dropdown.Item>
-}
+        {(prettyApp.fullscreen === false) ?
+          <Dropdown.Item onClick={_ => prettyApp.toggleFullscreen()} as="button">
+            Fullscreen
+          </Dropdown.Item> :
+          <Dropdown.Item onClick={_ => prettyApp.toggleFullscreen()} as="button">
+            Exit fullscreen
+          </Dropdown.Item>}
       </DropdownButton>
 
       <Button variant="success" onClick={handleShow}>
-        Options
+        Settings
       </Button>
       <OptionsModal show={show} handleClose={handleClose}></OptionsModal>
     </Navbar>

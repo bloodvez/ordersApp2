@@ -8,8 +8,8 @@ const DeliveryList = observer(() => {
   const { prettyApp } = useContext(Context)
 
   return (
-    <div>
-      <h1>Доставка</h1>
+    <div className="stuffLists">
+      <h1>Доставка {prettyApp.amountDelivering === 0 ? '' : prettyApp.amountDelivering}</h1>
       <h2>Не назначены</h2>
       <div className="pendingDiv">
       {prettyApp.ordersArray.delivery.pending.map(order => (

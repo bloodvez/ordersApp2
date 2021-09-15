@@ -1,11 +1,6 @@
-# Better dashboard
+# samokat dashboard
 
-Shows apartments, entrances and floors in orders.
-
-Shows orders on map.
-
-
-Uses ElectronJS
+ElectronJS + React
 
 Poorly written.
 

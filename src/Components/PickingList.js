@@ -8,8 +8,8 @@ const PickingList = observer(() => {
   const { prettyApp } = useContext(Context)
 
   return (
-    <div>
-      <h1>Сборка</h1>
+    <div className="stuffLists">
+      <h1>Сборка {prettyApp.amountPicking === 0 ? '' : prettyApp.amountPicking}</h1>
       <div className="pendingDiv">
         {prettyApp.ordersArray.picking.pending.map(order => (
           <OrdersCard key={order.orderId} order={order} />
