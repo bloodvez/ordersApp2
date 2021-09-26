@@ -1,7 +1,9 @@
+// eslint-disable-next-line
 const order = {
     couriers:{
         free:[],
-        returning:[]
+        returning:[],
+        assigned:[]
     },
     delivery:{
         pending:[],
@@ -17,7 +19,7 @@ const order = {
         underway:[]
     }
 }
-
+// eslint-disable-next-line
 const baseOrder = {
     orderId: "",
     deliveryDestination: "",
@@ -29,7 +31,7 @@ const baseOrder = {
     oversizeItemsTotal: 0,
     badges: []
 }
-
+// eslint-disable-next-line
 const pendingOrder = {
     orderId: "",
     deliveryDestination: "",
@@ -41,7 +43,7 @@ const pendingOrder = {
     oversizeItemsTotal: 0,
     badges: []
 }
-
+// eslint-disable-next-line
 const underwayOrder = {
     assignee: "",
     order:baseOrder

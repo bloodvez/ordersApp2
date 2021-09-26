@@ -3,7 +3,7 @@ import { useContext, useState } from 'react'
 import { Context } from '../index'
 import OptionsModal from '../Modals/OptionsModal'
 import { observer } from 'mobx-react-lite'
-import { Navbar, DropdownButton, Dropdown, Button } from 'react-bootstrap'
+import { Navbar, DropdownButton, Dropdown, Button, Alert } from 'react-bootstrap'
 
 const NavBar = observer(() => {
   const { prettyApp } = useContext(Context)
@@ -21,6 +21,10 @@ const NavBar = observer(() => {
     })
   }
 
+  const handleExit = () =>{
+    prettyApp.exitApp()
+  }
+
   return (
     <Navbar bg="dark" variant="dark">
       <DropdownButton
@@ -28,20 +32,23 @@ const NavBar = observer(() => {
         title="Actions"
         variant="success"
       >
-        <Dropdown.Item onClick={getOrders} as="button">
-          Обновить
-        </Dropdown.Item>
         {(prettyApp.intervalRunning === true) ?
-          <Dropdown.Item onClick={_ => prettyApp.stop()} as="button">
+          <Dropdown.Item className="dropdown-stop" onClick={_ => prettyApp.stop()} as="button">
             Стоп
           </Dropdown.Item> :
-          <Dropdown.Item onClick={_ => prettyApp.start()} as="button">
+          <Dropdown.Item className="dropdown-start" onClick={_ => prettyApp.start()} as="button">
             Старт
           </Dropdown.Item>
         }
+        
+        <Dropdown.Item onClick={getOrders} as="button">
+          Обновить
+        </Dropdown.Item>
+
         <Dropdown.Item onClick={refreshToken} as="button">
           refresh token
         </Dropdown.Item>
+
         {(prettyApp.fullscreen === false) ?
           <Dropdown.Item onClick={_ => prettyApp.toggleFullscreen()} as="button">
             Fullscreen
@@ -49,11 +56,34 @@ const NavBar = observer(() => {
           <Dropdown.Item onClick={_ => prettyApp.toggleFullscreen()} as="button">
             Exit fullscreen
           </Dropdown.Item>}
+
+          <Dropdown.Item onClick={handleExit} as="button">
+          Exit
+        </Dropdown.Item>
+
       </DropdownButton>
 
       <Button variant="success" onClick={handleShow}>
         Settings
       </Button>
+
+      {prettyApp.wsConnected ?
+        <Alert variant="success">
+          Bot Connected
+        </Alert> :
+        <Alert variant="danger">
+          Bot not connected
+        </Alert>
+      }
+      {prettyApp.intervalRunning ?
+        <Alert variant="success">
+          Running
+        </Alert> :
+        <Alert variant="warning">
+          Stopped
+        </Alert>
+      }
+
       <OptionsModal show={show} handleClose={handleClose}></OptionsModal>
     </Navbar>
   )

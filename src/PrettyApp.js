@@ -13,6 +13,7 @@ export default class PrettyApp {
     this.amountDelivering = 0
     this.intervalRunning = false
     this.fullscreen = false
+    this.connectingToWS = false
     this.ws = io("http://h.ladvez.net:5557/", { autoConnect: false })
     this.wsConnected = false
     try {
@@ -56,6 +57,10 @@ export default class PrettyApp {
     this.wsConnected = state
   }
 
+  setСonnectingToWS(state) {
+    this.connectingToWS = state
+  }
+
   setFullscreen(state){
     this.fullscreen = state
   }
@@ -93,9 +98,11 @@ export default class PrettyApp {
   }
 
   async connectToWS() {
+    this.setСonnectingToWS(true)
     if (!this.ws.connected) {
       this.ws.on('connect', _ => {
         this.setWsConnected(true)
+        this.setСonnectingToWS(false)
       })
 
       this.ws.on('disconnect', _ => {
@@ -131,7 +138,7 @@ export default class PrettyApp {
       this.getOrders()
     }, 10000)
     this.intervalRunning = true
-    console.log(`Interval ID: ${this.intervalID}`)
+    //console.log(`Interval ID: ${this.intervalID}`)
   }
 
   stop() {
@@ -142,5 +149,9 @@ export default class PrettyApp {
 
   toggleFullscreen(){
     ipcRenderer.invoke('toggleFullscreen', this.fullscreen)
+  }
+
+  exitApp(){
+    ipcRenderer.invoke('exitApp')
   }
 }

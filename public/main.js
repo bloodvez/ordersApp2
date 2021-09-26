@@ -6,16 +6,39 @@ require('@electron/remote/main').initialize()
 const { refreshToken, login, getOrders } = require('./samokatAPI')
 
 function createWindow() {
-  // Create the browser window.
+  // Create the loading window.
+  let loadingWindow = new BrowserWindow({
+    width: 256,
+    height: 256,
+    frame: false,
+    webPreferences: {
+      contextIsolation: true
+    }
+  })
+  loadingWindow.loadURL(
+    isDev
+      ? `file://${path.join(__dirname, '../public/loading.html')}`
+      : `file://${path.join(__dirname, '../build/loading.html')}`
+  )
+  loadingWindow.setIgnoreMouseEvents(true)
+
+  // Create the app window.
   const win = new BrowserWindow({
     width: 1080,
     height: 1280,
+    show: false,
+    autoHideMenuBar: true,
     webPreferences: {
-      autoHideMenuBar: true,
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true
     }
+  })
+
+  win.once('ready-to-show', () => {
+    win.show()
+    loadingWindow.destroy()
+    loadingWindow = null
   })
 
   win.loadURL(
@@ -47,6 +70,9 @@ function createWindow() {
     } else {
       win.setFullScreen(true)
     }
+  })
+  ipcMain.handle('exitApp', (event) => {
+    app.quit()
   })
 }
 

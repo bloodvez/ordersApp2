@@ -8,7 +8,7 @@ import Settings from '../Components/Settings'
 const OptionsModal = observer(({ show, handleClose }) => {
 
   return (
-    <Modal show={show} onHide={handleClose} size="lg">
+    <Modal className="settingsModal" show={show} onHide={handleClose} size="lg">
       <Modal.Header>
         <Modal.Title>Settings</Modal.Title>
       </Modal.Header>

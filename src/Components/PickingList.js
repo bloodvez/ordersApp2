@@ -7,6 +7,7 @@ import OrdersCard from './OrdersCard'
 const PickingList = observer(() => {
   const { prettyApp } = useContext(Context)
 
+
   return (
     <div className="stuffLists">
       <h1>Сборка {prettyApp.amountPicking === 0 ? '' : prettyApp.amountPicking}</h1>
@@ -16,8 +17,8 @@ const PickingList = observer(() => {
         ))}
       </div>
       {prettyApp.ordersArray.picking.underway.map(order => (
-          <OrdersCard key={order.orderId} order={order} />
-        ))}
+        <OrdersCard key={order.orderId} order={order} />
+      ))}
     </div>
   )
 })

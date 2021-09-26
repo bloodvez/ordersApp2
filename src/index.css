@@ -2,13 +2,15 @@
   --card-font-size: 1.3vh;
   --h1-font-size: 2vh;
   --h2-font-size: 1.5vh;
+  --mainBodyDisplay: flex;
 }
 body{
   background-color: #41464b;
+  overflow: hidden;
 }
 h1{
   background-color: lightgrey;
-  margin: 0px;
+  margin: 0px 5px;
   padding: 0px;
   text-align: center;
   font-size: var(--h1-font-size);
@@ -16,16 +18,31 @@ h1{
 }
 h2{
   background-color: lightgrey;
-  margin: 0px;
+  margin: 0px 5px;
   padding: 0px;
   text-align: center;
   font-size: var(--h2-font-size);
   font-weight: bold;
 }
+.mainBody{
+  display: var(--mainBodyDisplay);
+}
+.ordersList{
+  flex-basis: 70%;
+}
+.couriersList{
+  flex-basis: 30%;
+}
 .btn{
   font-size: 1.3vh;
   font-weight: bold;
   margin: 0 5px;
+}
+.alert{
+  font-size: 1.3vh;
+  font-weight: bold;
+  margin: 0 5px;
+  padding: .375rem .75rem;
 }
 .dropdown-item{
   font-size: 2vh;
@@ -55,18 +72,22 @@ h2{
   margin: 10px 0px;
 }
 .card{
-  flex:auto;
   font-size: var(--card-font-size);
   font-weight: bold;
   margin: 3px 5px;
+  flex: auto;
 }
 .cardContents{
   display: flex;
   flex-flow: row wrap;
 }
 .cardTimeLeft{
-  flex: auto;
   text-align: end;
+  flex: 1;
+}
+.cardDestination{
+  flex: 1;
+  flex-basis: 85%;
 }
 .late{
   color: red;
@@ -94,4 +115,35 @@ h2{
   margin: 3px 5px;
   font-size: 1.5vh;
   flex: 1 0 43%;
+}
+.dropdown-start{
+  background-color: rgb(112, 255, 160);
+}
+.dropdown-start:hover{
+  background-color: rgb(51, 172, 91);
+}
+.dropdown-stop{
+  background-color: rgb(255, 112, 112);
+}
+.dropdown-stop:hover{
+  background-color: rgb(224, 57, 57);
+}
+.fontSizeSlider{
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2vh;
+  background: #d3d3d3;
+  outline: none;
+}
+.fontSizeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 2vh;
+  height: 2vh;
+  background: #04AA6D;
+  cursor: pointer;
+}
+.settingsModal{
+  font-size: 1.5vh;
 }
