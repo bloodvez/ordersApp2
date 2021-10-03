@@ -1,17 +1,24 @@
 const fetch = require('node-fetch')
+const https = require('https');
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
+
+const REFRESH_URL = 'https://dashboard.samokat.ru/api/access/tokens/refresh'
+const LOGIN_URL= 'https://dashboard.samokat.ru/api/access/tokens'
+const ORDERS_URL = 'https://dashboard.samokat.ru/api/warehouse/summary'
 
 const refreshToken = async refreshToken => {
   try {
     let toSend = { refreshToken: refreshToken }
-    const resp = await fetch(
-      'https://dashboard.samokat.ru/api/access/tokens/refresh',
+    const resp = await fetch(REFRESH_URL,
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          origin: 'https://dashboard.samokat.ru'
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(toSend)
+        body: JSON.stringify(toSend),
+        agent: httpsAgent
       }
     )
     let result = await resp.json()
@@ -29,14 +36,14 @@ const refreshToken = async refreshToken => {
 const login = async credentials => {
   // {"login": "phone", "password": "pswd"}
   try {
-    const resp = await fetch(
-      'https://dashboard.samokat.ru/api/access/tokens',
+    const resp = await fetch(LOGIN_URL,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(credentials),
+        agent: httpsAgent 
       }
     )
     let result = await resp.json()
@@ -58,11 +65,11 @@ const login = async credentials => {
 
 const getOrders = async orders_token => {
   try {
-    const res = await fetch(
-      'https://dashboard.samokat.ru/api/warehouse/summary',
+    const res = await fetch(ORDERS_URL,
       //'https://api.samokat.ru/darkstore/tasks/admin/orders/active',
       {
-        headers: { authorization: `Bearer ${orders_token}` }
+        headers: { authorization: `Bearer ${orders_token}` },
+        agent: httpsAgent
       }
     )
     if (res.status !== 401) {
