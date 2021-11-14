@@ -9,11 +9,11 @@ const CouriersList = observer(() => {
 
   return (
     <div className="stuffLists">
-      <h1>Курьеры</h1>
+      <h1 className="mainBodyH1">Курьеры</h1>
       {
         prettyApp.ordersArray.couriers.free.length !== 0
           ? <div>
-            <h2>Свободные</h2>
+            <h2 className="mainBodyH2" >Свободные</h2>
             {prettyApp.ordersArray.couriers.free.map(courier => (
               <CourierCard courier={courier} />
             ))}
@@ -22,7 +22,7 @@ const CouriersList = observer(() => {
 
       {prettyApp.ordersArray.couriers.returning.length !== 0
         ? <div>
-          <h2>Возвращаются</h2>
+          <h2 className="mainBodyH2" >Возвращаются</h2>
           <div className="pendingDiv">
             {prettyApp.ordersArray.couriers.returning.map(courier => (
               <CourierCard courier={courier} />
@@ -34,7 +34,7 @@ const CouriersList = observer(() => {
       {prettyApp.ordersArray.couriers.assigned.length !== 0
         ?
         <div>
-          <h2>Поручения</h2>
+          <h2 className="mainBodyH2" >Поручения</h2>
           <div className="pendingDiv">
             {prettyApp.ordersArray.couriers.assigned.map(courier => (
               <CourierCard courier={courier} />

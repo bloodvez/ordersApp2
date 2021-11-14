@@ -9,11 +9,11 @@ const DeliveryList = observer(() => {
 
   return (
     <div className="stuffLists">
-      <h1>Доставка {prettyApp.amountDelivering === 0 ? '' : prettyApp.amountDelivering}</h1>
+      <h1 className="mainBodyH1" >Доставка {prettyApp.amountDelivering === 0 ? '' : prettyApp.amountDelivering}</h1>
 
       {prettyApp.ordersArray.delivery.pending.length !== 0
         ? <div>
-          <h2>Не назначены</h2>
+          <h2 className="mainBodyH2">Не назначены</h2>
           <div className="pendingDiv">
             {prettyApp.ordersArray.delivery.pending.map(order => (
               <OrdersCard key={order.orderId} order={order} />
@@ -24,7 +24,7 @@ const DeliveryList = observer(() => {
 
       {prettyApp.ordersArray.delivery.reserved.length !== 0
         ? <div>
-          <h2>В резерве</h2>
+          <h2 className="mainBodyH2">В резерве</h2>
           {prettyApp.ordersArray.delivery.reserved.map(order => (
             <OrdersCard key={order.orderId} order={order} />
           ))}
@@ -33,7 +33,7 @@ const DeliveryList = observer(() => {
 
       {prettyApp.ordersArray.delivery.underway.length !== 0
         ? <div>
-          <h2>В пути</h2>
+          <h2 className="mainBodyH2">В пути</h2>
           <div className="pendingDiv">
             {prettyApp.ordersArray.delivery.underway.map(order => (
               <OrdersCard key={order.orderId} order={order} />

@@ -22,31 +22,36 @@ const order = {
 // eslint-disable-next-line
 const baseOrder = {
     orderId: "",
-    deliveryDestination: "",
-    acceptedDate: "",
-    dueDate: "",
-    itemsTotal: 9,
-    packagesTotal: 0,
-    boxLabels: [],
-    oversizeItemsTotal: 0,
-    badges: []
-}
-// eslint-disable-next-line
-const pendingOrder = {
-    orderId: "",
+    badges:[],
     deliveryDestination: "",
     acceptedDate: "",
     dueDate: "",
     itemsTotal: 0,
     packagesTotal: 0,
     boxLabels: [],
-    oversizeItemsTotal: 0,
-    badges: []
+    oversizeItemsTotal: 0
 }
+// eslint-disable-next-line
+// const pendingOrder = {
+//     orderId: "",
+//     deliveryDestination: "",
+//     acceptedDate: "",
+//     dueDate: "",
+//     itemsTotal: 0,
+//     packagesTotal: 0,
+//     boxLabels: [],
+//     oversizeItemsTotal: 0,
+//     badges: []
+// }
 // eslint-disable-next-line
 const underwayOrder = {
     assignee: "",
     order:baseOrder
+}
+// eslint-disable-next-line
+const badge = {
+    type: "",
+    label:""
 }
 
 exports.order = order

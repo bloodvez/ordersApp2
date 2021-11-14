@@ -8,7 +8,10 @@ body{
   background-color: #41464b;
   overflow: hidden;
 }
-h1{
+.mainBody{
+  display: var(--mainBodyDisplay);
+}
+.mainBodyH1{
   background-color: lightgrey;
   margin: 0px 5px;
   padding: 0px;
@@ -16,7 +19,7 @@ h1{
   font-size: var(--h1-font-size);
   font-weight: bold;
 }
-h2{
+.mainBodyH2{
   background-color: lightgrey;
   margin: 0px 5px;
   padding: 0px;
@@ -24,8 +27,12 @@ h2{
   font-size: var(--h2-font-size);
   font-weight: bold;
 }
-.mainBody{
-  display: var(--mainBodyDisplay);
+.settingsH1{
+  margin: 0px 5px;
+  padding: .75vh;
+  text-align: center;
+  font-size: var(--h1-font-size);
+  font-weight: bold;
 }
 .ordersList{
   flex-basis: 70%;
@@ -146,4 +153,7 @@ h2{
 }
 .settingsModal{
   font-size: 1.5vh;
+}
+.appearenceSettings{
+  padding: .75vh 0px;
 }

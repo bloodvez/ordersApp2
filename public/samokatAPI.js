@@ -22,11 +22,7 @@ const refreshToken = async refreshToken => {
       }
     )
     let result = await resp.json()
-    if (result.status === undefined) {
-      //console.log('updated token')
-      //this.updateConfigFile()
-      return result.accessToken
-    }
+    return result
   } catch (error) {
     console.log("Couldn't refresh token")
     return "Couldn't refresh token"

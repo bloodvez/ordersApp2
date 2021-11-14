@@ -12,7 +12,7 @@ const UnPickingList = observer(() => {
             prettyApp.ordersArray.unpicking.underway.length !== 0)
             ?
             <div className="stuffLists">
-                <h1>Разбор</h1>
+                <h1 className="mainBodyH1">Разбор</h1>
                 <div className="pendingDiv">
                     {prettyApp.ordersArray.unpicking.pending.map(order => (
                         <OrdersCard key={order.orderId} order={order} />
